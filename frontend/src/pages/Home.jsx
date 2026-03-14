@@ -19,7 +19,10 @@ export default function Home() {
         if (!res.ok) throw new Error("Failed to fetch blogs");
         return res.json();
       })
-      .then((data) => setBlogs(data))
+      .then((data) => {
+        console.log("Fetched blogs:", data.length, data);
+        setBlogs(data);
+      })
       .catch((err) => {
         console.error(err);
         setError("Could not load blogs");
@@ -91,24 +94,32 @@ export default function Home() {
       {/* BLOG GRID */}
       <section
         id="blogs"
-
-        className="max-w-7xl mx-auto px-10 pb-28 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12"
+        className="max-w-7xl mx-auto px-10 pb-28 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
       >
+        {/* Debug info */}
+        <div className="col-span-full mb-4 text-center text-luxMuted">
+          Total blogs: {blogs.length}
+        </div>
+
         {/* {error && (
           <p className="col-span-full text-center text-luxMuted">
             {error}
           </p>
         )} */}
-        {blogs.map((blog) => (
-          <BlogCard
-            key={blog._id}
-            blog={blog}
-            isOwner={true}
-            onRead={() => setSelectedBlog(blog)}
-            onEdit={() => navigate(`/edit/${blog._id}`)}
-            onDelete={() => handleDelete(blog._id)}
-          />
-        ))}
+        {blogs.map((blog) => {
+          const user = JSON.parse(localStorage.getItem("user"));
+          const isOwner = user && user.email === blog.author;
+          return (
+            <BlogCard
+              key={blog._id}
+              blog={blog}
+              isOwner={isOwner}
+              onRead={() => setSelectedBlog(blog)}
+              onEdit={() => navigate(`/edit/${blog._id}`)}
+              onDelete={() => handleDelete(blog._id)}
+            />
+          );
+        })}
       </section>
 
       {/* BLOG MODAL */}

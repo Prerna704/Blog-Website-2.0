@@ -5,6 +5,7 @@ import BlogCard from "../components/BlogCard";
 export default function MyBlogs() {
   const [blogs, setBlogs] = useState([]);
   const [error, setError] = useState(null);
+  const [selectedBlog, setSelectedBlog] = useState(null);
   const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem("user")); // { email, name, ... }
@@ -58,12 +59,48 @@ export default function MyBlogs() {
             key={blog._id || blog.title}
             blog={blog}
             isOwner={true}
-            onRead={() => navigate(`/blog/${blog._id}`)}
+            onRead={() => setSelectedBlog(blog)}
             onEdit={() => navigate(`/edit/${blog._id}`)}
             onDelete={() => handleDelete(blog._id)}
           />
         ))}
       </div>
+
+      {/* Blog Modal */}
+      {selectedBlog && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-luxSurface border border-luxBorder rounded-2xl max-w-2xl w-full max-h-screen overflow-y-auto">
+            <div className="sticky top-0 flex justify-between items-center p-6 border-b border-luxBorder bg-luxSurface">
+              <h2 className="text-2xl font-bold text-luxHeading">{selectedBlog.title}</h2>
+              <button
+                onClick={() => setSelectedBlog(null)}
+                className="text-luxMuted hover:text-luxHeading transition text-2xl"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="p-6">
+              {selectedBlog.image && (
+                <img
+                  src={selectedBlog.image}
+                  alt={selectedBlog.title}
+                  className="w-full h-64 object-cover rounded-lg mb-6"
+                  onError={(e) => {
+                    e.target.src = "https://picsum.photos/600/400";
+                  }}
+                />
+              )}
+              <p className="text-sm text-luxMuted mb-4">✍ {selectedBlog.author}</p>
+              {selectedBlog.category && (
+                <p className="text-sm text-luxAccent mb-4">📁 {selectedBlog.category}</p>
+              )}
+              <div className="text-luxText leading-relaxed whitespace-pre-wrap">
+                {selectedBlog.description}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

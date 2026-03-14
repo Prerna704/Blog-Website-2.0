@@ -79,4 +79,64 @@ router.delete("/delete/:id", async (req, res) => {
   }
 });
 
+// 🔹 LIKE/UNLIKE blog
+router.post("/like/:id", async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const blog = await Blog.findById(req.params.id);
+    if (!blog) return res.status(404).json("Blog not found");
+
+    const isLiked = blog.likes.includes(userId);
+    if (isLiked) {
+      blog.likes = blog.likes.filter(id => id !== userId);
+    } else {
+      blog.likes.push(userId);
+    }
+
+    await blog.save();
+    res.json({ likes: blog.likes.length, isLiked: !isLiked });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 🔹 ADD comment
+router.post("/comment/:id", async (req, res) => {
+  try {
+    const { user, text } = req.body;
+    const blog = await Blog.findById(req.params.id);
+
+    if (!blog) return res.status(404).json("Blog not found");
+
+    if (!Array.isArray(blog.comments)) {
+      blog.comments = [];
+    }
+    const newComment = {
+      user,
+      text,
+      createdAt: new Date()
+    };
+
+    blog.comments.push(newComment);
+
+    await blog.save();
+
+    res.json({ comments: blog.comments });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 🔹 GET comments for a blog
+router.get("/comments/:id", async (req, res) => {
+  try {
+    const blog = await Blog.findById(req.params.id);
+    if (!blog) return res.status(404).json("Blog not found");
+    res.json(blog.comments);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;

@@ -1,10 +1,15 @@
 
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateBlog() {
+  const navigate = useNavigate();
   const [error, setError] = useState("");
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("");
   const formRef = useRef(null);
+
+  const categories = ['Technology', 'Lifestyle', 'Travel', 'Food', 'Health', 'Business', 'Education', 'Entertainment'];
 
   const submit = async (e) => {
     e.preventDefault();
@@ -20,6 +25,10 @@ export default function CreateBlog() {
       setError("Blog content must be at least 50 characters long.");
       return;
     }
+    if (!selectedCategory) {
+      setError("Please select a category.");
+      return;
+    }
 
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user) return setError("Login required");
@@ -32,12 +41,15 @@ export default function CreateBlog() {
           title: data.title,
           description: data.description,
           image: data.image || "",
+          category: selectedCategory,
           author: user.email,
         }),
       });
       if (!res.ok) throw new Error("Failed");
       alert("Published ✨");
       formRef.current.reset();
+      setSelectedCategory("");
+      navigate("/my-blogs");
     } catch (err) {
       console.error(err);
       setError("Could not publish blog");
@@ -46,6 +58,7 @@ export default function CreateBlog() {
 
   const deleteDraft = () => {
     formRef.current.reset();
+    setSelectedCategory("");
     setShowDeleteConfirm(false);
   };
 
@@ -54,6 +67,18 @@ export default function CreateBlog() {
       <form ref={formRef} onSubmit={submit} className="w-full max-w-3xl bg-luxSurface border border-luxBorder rounded-2xl p-10 space-y-10 shadow-xl shadow-black/20">
         <input name="title" placeholder="Your title" className="w-full text-5xl font-bold bg-transparent outline-none text-luxHeading placeholder:text-luxMuted" />
         <input name="image" placeholder="Cover image URL" className="w-full border-b border-luxBorder pb-3 bg-transparent outline-none text-luxText placeholder:text-luxMuted" />
+        <select
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+          className="w-full border-b border-luxBorder pb-3 bg-transparent outline-none text-luxText"
+        >
+          <option value="">Select a category</option>
+          {categories.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
         <textarea name="description" placeholder="Start writing..." className="w-full min-h-[360px] text-lg leading-relaxed bg-transparent outline-none resize-none text-luxText placeholder:text-luxMuted" />
         <div className="pt-6 flex gap-4">
           <button type="submit" className="px-8 py-3 bg-luxAccent text-black font-medium rounded-full hover:opacity-90 transition shadow-lg shadow-emerald-500/20">Publish</button>

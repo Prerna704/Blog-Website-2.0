@@ -20,12 +20,10 @@ async function startServer() {
   // Connect DB first
   await connectDB();
 
-  // Insert mock data only once
-  const count = await Blog.countDocuments();
-  if (count === 0) {
-    await Blog.insertMany(mockBlogs);
-    console.log("✅ Mock blogs inserted");
-  }
+  // Clear existing blogs and insert fresh mock data
+  await Blog.deleteMany({});
+  await Blog.insertMany(mockBlogs);
+  console.log("✅ Mock blogs inserted (fresh)");
 
   // Start server
   app.listen(5050, () => {

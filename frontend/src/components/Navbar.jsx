@@ -15,7 +15,7 @@ export default function Navbar() {
     } else {
       setUser(null);
     }
-    setDropdownOpen(false); // 🔴 IMPORTANT: close dropdown on navigation
+    setDropdownOpen(false);
   }, [pathname]);
 
   const logout = () => {
@@ -40,10 +40,26 @@ export default function Navbar() {
         </h1>
 
         {/* NAV LINKS */}
-        <div className="flex gap-10 text-sm items-center relative">
+        <div className="flex gap-8 text-sm items-center relative">
 
           <Link to="/" className={linkStyle("/")}>
             Home
+          </Link>
+
+          <Link to="/about" className={linkStyle("/about")}>
+            About
+          </Link>
+
+          <Link to="/blog" className={linkStyle("/blog")}>
+            Blog
+          </Link>
+
+          <Link to="/pages" className={linkStyle("/pages")}>
+            Pages
+          </Link>
+
+          <Link to="/contact" className={linkStyle("/contact")}>
+            Contact
           </Link>
 
           {/* WRITE — only if logged in */}
@@ -57,7 +73,7 @@ export default function Navbar() {
           {!user && (
             <>
               <Link to="/login" className={linkStyle("/login")}>
-                Login
+                Sign In
               </Link>
 
               <Link
@@ -76,7 +92,7 @@ export default function Navbar() {
             </>
           )}
 
-          {/* USER DROPDOWN */}
+          {/* USER PROFILE DROPDOWN */}
           {user && (
             <div className="relative">
               <button
@@ -89,7 +105,7 @@ export default function Navbar() {
                   transition
                 "
               >
-                {user.name}
+                Profile
               </button>
 
               {dropdownOpen && (
@@ -112,6 +128,7 @@ export default function Navbar() {
                   <Link
                     to="/profile"
                     className="text-sm text-luxAccent hover:underline"
+                    onClick={() => setDropdownOpen(false)}
                   >
                     Profile
                   </Link>
@@ -119,6 +136,7 @@ export default function Navbar() {
                   <Link
                     to="/my-blogs"
                     className="text-sm text-luxAccent hover:underline"
+                    onClick={() => setDropdownOpen(false)}
                   >
                     My Blogs
                   </Link>
@@ -126,6 +144,7 @@ export default function Navbar() {
                   <Link
                     to="/update-password"
                     className="text-sm text-luxAccent hover:underline"
+                    onClick={() => setDropdownOpen(false)}
                   >
                     Update Password
                   </Link>

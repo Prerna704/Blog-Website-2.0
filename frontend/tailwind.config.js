@@ -4,16 +4,16 @@ module.exports = {
   theme: {
     extend: {
   colors: {
-    luxBg: "#0F1512",
-    luxSurface: "#151C18",
-    luxBorder: "#26302A",
+    luxBg: "#0F0A15",
+    luxSurface: "#1A1225",
+    luxBorder: "#2D1F3D",
 
-    luxHeading: "#E6F4EA",
-    luxText: "#B7CFC3",
-    luxMuted: "#7D948A",
+    luxHeading: "#F0E6FF",
+    luxText: "#D4B5FF",
+    luxMuted: "#9B7FA8",
 
-    luxAccent: "#6EE7B7",
-    luxAccentHover: "#34D399",
+    luxAccent: "#A855F7",
+    luxAccentHover: "#9333EA",
   },
 },
 
