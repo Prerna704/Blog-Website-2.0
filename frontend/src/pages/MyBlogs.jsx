@@ -16,7 +16,7 @@ export default function MyBlogs() {
       return;
     }
 
-    fetch(`http://localhost:5050/api/blogs/myblogs/${user.email}`)
+    fetch(`https://blog-website-2-0-7et4.onrender.com/api/blogs/myblogs/${user.email}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch your blogs");
         return res.json();
@@ -30,7 +30,7 @@ export default function MyBlogs() {
 
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5050/api/blogs/delete/${id}`, {
+      const res = await fetch(`https://blog-website-2-0-7et4.onrender.com/api/blogs/delete/${id}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ author: user.email }),

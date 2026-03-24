@@ -30,7 +30,7 @@ export default function BlogCard({ blog, onRead, onEdit, onDelete, isOwner }) {
     }
 
     try {
-      const response = await fetch(`http://localhost:5050/api/blogs/like/${blog._id}`, {
+      const response = await fetch(`https://blog-website-2-0-7et4.onrender.com/api/blogs/like/${blog._id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId: user._id }),
@@ -57,7 +57,7 @@ export default function BlogCard({ blog, onRead, onEdit, onDelete, isOwner }) {
 
   try {
     const response = await fetch(
-      `http://localhost:5050/api/blogs/comment/${blog._id}`,
+      `https://blog-website-2-0-7et4.onrender.com/api/blogs/comment/${blog._id}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

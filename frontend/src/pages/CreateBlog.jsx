@@ -34,7 +34,7 @@ export default function CreateBlog() {
     if (!user) return setError("Login required");
 
     try {
-      const res = await fetch("http://localhost:5050/api/blogs/create", {
+      const res = await fetch("https://blog-website-2-0-7et4.onrender.com/api/blogs/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

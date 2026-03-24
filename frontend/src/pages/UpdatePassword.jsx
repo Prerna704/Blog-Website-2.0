@@ -20,7 +20,7 @@ export default function UpdatePassword() {
     const user = JSON.parse(localStorage.getItem("user"));
 
     try {
-      const res = await fetch("http://localhost:5050/api/auth/update-password", {
+      const res = await fetch("https://blog-website-2-0-7et4.onrender.com/api/auth/update-password", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",

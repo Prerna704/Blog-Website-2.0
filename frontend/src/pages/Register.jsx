@@ -49,7 +49,7 @@ export default function Register() {
     }
 
     try {
-      const res = await fetch("http://localhost:5050/api/auth/register", {
+      const res = await fetch("https://blog-website-2-0-7et4.onrender.com/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),

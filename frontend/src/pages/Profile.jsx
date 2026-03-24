@@ -27,7 +27,7 @@ export default function Profile() {
     formData.append("profilePic", file);
 
     try {
-      const res = await fetch("http://localhost:5050/api/auth/update-profile", {
+      const res = await fetch("https://blog-website-2-0-7et4.onrender.com/api/auth/update-profile", {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${user.token}` // if using JWT
