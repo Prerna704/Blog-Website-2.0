@@ -101,11 +101,11 @@ export default function Home() {
           Total blogs: {blogs.length}
         </div>
 
-        {/* {error && (
+        {error && (
           <p className="col-span-full text-center text-luxMuted">
             {error}
           </p>
-        )} */}
+        )}
         {blogs.map((blog) => {
           const user = JSON.parse(localStorage.getItem("user"));
           const isOwner = user && user.email === blog.author;

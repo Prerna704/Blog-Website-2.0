@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 export default function CreateBlog() {
   const navigate = useNavigate();
   const [error, setError] = useState("");
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const formRef = useRef(null);
 
@@ -59,12 +58,15 @@ export default function CreateBlog() {
   const deleteDraft = () => {
     formRef.current.reset();
     setSelectedCategory("");
-    setShowDeleteConfirm(false);
+    setError("");
   };
 
   return (
     <div className="min-h-screen bg-luxBg flex justify-center px-6 pt-28 pb-32 animate-fadeIn">
       <form ref={formRef} onSubmit={submit} className="w-full max-w-3xl bg-luxSurface border border-luxBorder rounded-2xl p-10 space-y-10 shadow-xl shadow-black/20">
+        {error && (
+          <p className="text-red-400 text-sm">{error}</p>
+        )}
         <input name="title" placeholder="Your title" className="w-full text-5xl font-bold bg-transparent outline-none text-luxHeading placeholder:text-luxMuted" />
         <input name="image" placeholder="Cover image URL" className="w-full border-b border-luxBorder pb-3 bg-transparent outline-none text-luxText placeholder:text-luxMuted" />
         <select
@@ -82,7 +84,7 @@ export default function CreateBlog() {
         <textarea name="description" placeholder="Start writing..." className="w-full min-h-[360px] text-lg leading-relaxed bg-transparent outline-none resize-none text-luxText placeholder:text-luxMuted" />
         <div className="pt-6 flex gap-4">
           <button type="submit" className="px-8 py-3 bg-luxAccent text-black font-medium rounded-full hover:opacity-90 transition shadow-lg shadow-emerald-500/20">Publish</button>
-          <button type="button" onClick={() => setShowDeleteConfirm(true)} className="px-6 py-3 border border-luxBorder text-luxMuted rounded-full hover:text-red-400 hover:border-red-400 transition">Delete draft</button>
+          <button type="button" onClick={deleteDraft} className="px-6 py-3 border border-luxBorder text-luxMuted rounded-full hover:text-red-400 hover:border-red-400 transition">Delete draft</button>
         </div>
       </form>
     </div>
