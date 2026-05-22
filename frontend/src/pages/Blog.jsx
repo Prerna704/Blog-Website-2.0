@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import BlogCard from "../components/BlogCard";
+import { apiUrl } from "../config/api";
 
 export default function Blog() {
   const [blogs, setBlogs] = useState([]);
@@ -10,7 +11,7 @@ export default function Blog() {
 
   // Fetch all blogs
   useEffect(() => {
-    fetch("/api/blogs")
+    fetch(apiUrl("/api/blogs"))
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch blogs");
         return res.json();

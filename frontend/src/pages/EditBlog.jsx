@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { apiUrl } from "../config/api";
 
 export default function EditBlog() {
   const { id } = useParams();
@@ -14,7 +15,7 @@ export default function EditBlog() {
   const [image, setImage] = useState("");
 
   useEffect(() => {
-    fetch(`/api/blogs/${id}`)
+    fetch(apiUrl(`/api/blogs/${id}`))
       .then((res) => res.json())
       .then((data) => {
         setTitle(data.title || "");
@@ -27,7 +28,7 @@ export default function EditBlog() {
   const handleUpdate = async (e) => {
     e.preventDefault();
 
-    await fetch(`/api/blogs/update/${id}`, {
+    await fetch(apiUrl(`/api/blogs/update/${id}`), {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

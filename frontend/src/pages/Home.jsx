@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import BlogCard from "../components/BlogCard";
 import BlogModal from "../components/BlogModal";
 import ExploreTopicsModal from "../components/ExploreTopicsModal";
+import { apiUrl } from "../config/api";
 
 export default function Home() {
   const [blogs, setBlogs] = useState([]);
@@ -14,7 +15,7 @@ export default function Home() {
 
   // Fetch all blogs
   useEffect(() => {
-    fetch("/api/blogs")
+    fetch(apiUrl("/api/blogs"))
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch blogs");
         return res.json();
@@ -41,7 +42,7 @@ export default function Home() {
   const handleDelete = async (id) => {
     const user = JSON.parse(localStorage.getItem("user"));
     try {
-      const res = await fetch(`/api/blogs/${id}`, {
+      const res = await fetch(apiUrl(`/api/blogs/delete/${id}`), {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ author: user.email }),

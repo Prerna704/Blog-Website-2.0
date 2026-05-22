@@ -1,6 +1,7 @@
 
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from "../config/api";
 
 export default function CreateBlog() {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ export default function CreateBlog() {
     if (!user) return setError("Login required");
 
     try {
-      const res = await fetch("/api/blogs/create", {
+      const res = await fetch(apiUrl("/api/blogs/create"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from "../config/api";
 
 export default function Register() {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
@@ -49,7 +50,7 @@ export default function Register() {
     }
 
     try {
-      const res = await fetch("/api/auth/register", {
+      const res = await fetch(apiUrl("/api/auth/register"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),

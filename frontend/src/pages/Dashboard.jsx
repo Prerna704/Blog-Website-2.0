@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
+import { apiUrl } from "../config/api";
 
 export default function Dashboard() {
   const { user, token } = useAuth();
@@ -10,7 +11,7 @@ export default function Dashboard() {
 
   const updatePassword = async () => {
     await axios.put(
-      "/api/auth/update-password",
+      apiUrl("/api/auth/update-password"),
       { oldPassword, newPassword },
       { headers: { Authorization: token } }
     );
@@ -22,7 +23,7 @@ export default function Dashboard() {
     formData.append("photo", photo);
 
     await axios.post(
-      "/api/auth/upload-photo",
+      apiUrl("/api/auth/upload-photo"),
       formData,
       { headers: { Authorization: token } }
     );

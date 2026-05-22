@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from "react";
+import { apiUrl } from "../config/api";
 
 export default function BlogCard({ blog, onRead, onEdit, onDelete, isOwner }) {
   const [liked, setLiked] = useState(false);
@@ -30,7 +31,7 @@ export default function BlogCard({ blog, onRead, onEdit, onDelete, isOwner }) {
     }
 
     try {
-      const response = await fetch(`/api/blogs/like/${blog._id}`, {
+      const response = await fetch(apiUrl(`/api/blogs/like/${blog._id}`), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId: user._id }),
@@ -57,7 +58,7 @@ export default function BlogCard({ blog, onRead, onEdit, onDelete, isOwner }) {
 
   try {
     const response = await fetch(
-      `/api/blogs/comment/${blog._id}`,
+      apiUrl(`/api/blogs/comment/${blog._id}`),
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

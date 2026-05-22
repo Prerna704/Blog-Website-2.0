@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { apiUrl } from "../config/api";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -29,7 +30,7 @@ export default function Contact() {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch(apiUrl("/api/contact"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from "../config/api";
 
 export default function Profile() {
   const [user, setUser] = useState(null);
@@ -28,7 +29,7 @@ export default function Profile() {
     formData.append("email", user.email);
 
     try {
-      const res = await fetch("/api/auth/update-profile", {
+      const res = await fetch(apiUrl("/api/auth/update-profile"), {
         method: "POST",
         body: formData,
       });
