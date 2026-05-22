@@ -1,6 +1,21 @@
 const express = require("express");
 const User = require("../models/User");
+const multer = require("multer");
+const fs = require("fs");
+const path = require("path");
 const router = express.Router();
+
+const uploadsDir = path.join(__dirname, "..", "uploads");
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, uploadsDir),
+  filename: (req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`),
+});
+
+const upload = multer({ storage });
 
 /*REGISTER */
 router.post("/register", async (req, res) => {
@@ -94,6 +109,34 @@ router.post("/update-password", async (req, res) => {
     res.json({ message: "Password updated successfully" });
   } catch (err) {
     res.status(500).json({ message: "Password update failed" });
+  }
+});
+
+/* UPDATE PROFILE PICTURE */
+router.post("/update-profile", upload.single("profilePic"), async (req, res) => {
+  try {
+    const email = req.body?.email || req.headers["x-user-email"];
+
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.profilePic = `/uploads/${req.file.filename}`;
+    await user.save();
+
+    res.json(user);
+  } catch (err) {
+    console.error("Profile upload error:", err);
+    res.status(500).json({ message: "Profile update failed" });
   }
 });
 

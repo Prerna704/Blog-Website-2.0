@@ -25,17 +25,20 @@ export default function Profile() {
 
     const formData = new FormData();
     formData.append("profilePic", file);
+    formData.append("email", user.email);
 
     try {
-      const res = await fetch("https://blog-website-2-0-7et4.onrender.com/api/auth/update-profile", {
+      const res = await fetch("/api/auth/update-profile", {
         method: "POST",
-        headers: {
-          "Authorization": `Bearer ${user.token}` // if using JWT
-        },
         body: formData,
       });
-
-      const data = await res.json();
+      const raw = await res.text();
+      let data = {};
+      try {
+        data = raw ? JSON.parse(raw) : {};
+      } catch {
+        data = { message: raw || "Unexpected server response" };
+      }
 
       if (res.ok) {
         alert("Profile picture updated!");

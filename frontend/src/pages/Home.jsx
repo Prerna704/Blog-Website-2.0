@@ -14,7 +14,7 @@ export default function Home() {
 
   // Fetch all blogs
   useEffect(() => {
-    fetch("https://blog-website-2-0-7et4.onrender.com/api/blogs")
+    fetch("/api/blogs")
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch blogs");
         return res.json();
@@ -41,7 +41,7 @@ export default function Home() {
   const handleDelete = async (id) => {
     const user = JSON.parse(localStorage.getItem("user"));
     try {
-      const res = await fetch(`https://blog-website-2-0-7et4.onrender.com/api/blogs/${id}`, {
+      const res = await fetch(`/api/blogs/${id}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ author: user.email }),

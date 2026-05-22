@@ -30,7 +30,7 @@ export default function BlogCard({ blog, onRead, onEdit, onDelete, isOwner }) {
     }
 
     try {
-      const response = await fetch(`https://blog-website-2-0-7et4.onrender.com/api/blogs/like/${blog._id}`, {
+      const response = await fetch(`/api/blogs/like/${blog._id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId: user._id }),
@@ -57,7 +57,7 @@ export default function BlogCard({ blog, onRead, onEdit, onDelete, isOwner }) {
 
   try {
     const response = await fetch(
-      `https://blog-website-2-0-7et4.onrender.com/api/blogs/comment/${blog._id}`,
+      `/api/blogs/comment/${blog._id}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -93,6 +93,7 @@ export default function BlogCard({ blog, onRead, onEdit, onDelete, isOwner }) {
 
   return (
     <article
+      onClick={() => onRead?.(blog)}
       className="
         relative
         bg-luxSurface
@@ -100,8 +101,11 @@ export default function BlogCard({ blog, onRead, onEdit, onDelete, isOwner }) {
         rounded-2xl
         flex flex-col
         shadow-md shadow-black/30
-        transition-all duration-300
+        transition-all duration-300 transform-gpu
+        cursor-pointer
         hover:-translate-y-1
+        hover:scale-[1.03]
+        hover:z-10
         hover:shadow-xl hover:shadow-emerald-500/20
       "
     >
@@ -144,14 +148,20 @@ export default function BlogCard({ blog, onRead, onEdit, onDelete, isOwner }) {
         <div className="mt-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
-              onClick={() => onRead(blog)}
+              onClick={(e) => {
+                e.stopPropagation();
+                onRead?.(blog);
+              }}
               className="text-luxAccent font-medium hover:underline transition"
             >
               Read
             </button>
 
             <button
-              onClick={handleLike}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleLike();
+              }}
               className={`flex items-center gap-1 transition ${
                 liked ? "text-red-500" : "text-luxMuted hover:text-red-500"
               }`}
@@ -160,7 +170,10 @@ export default function BlogCard({ blog, onRead, onEdit, onDelete, isOwner }) {
             </button>
 
             <button
-              onClick={() => setShowComments(!showComments)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowComments(!showComments);
+              }}
               className="flex items-center gap-1 text-luxMuted hover:text-luxAccent transition"
             >
               💬 {comments.length}
@@ -170,13 +183,19 @@ export default function BlogCard({ blog, onRead, onEdit, onDelete, isOwner }) {
           {isOwner && (
             <div className="flex gap-2">
               <button
-                onClick={() => onEdit(blog)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEdit?.(blog);
+                }}
                 className="text-luxMuted hover:text-luxAccent transition"
               >
                 Edit
               </button>
               <button
-                onClick={() => onDelete(blog._id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDelete?.(blog._id);
+                }}
                 className="text-red-500 hover:text-red-400 transition"
               >
                 Delete
@@ -187,7 +206,10 @@ export default function BlogCard({ blog, onRead, onEdit, onDelete, isOwner }) {
 
         {/* Comment section */}
         {showComments && (
-          <div className="mt-4 p-4 bg-luxBorder rounded-lg">
+          <div
+            className="mt-4 p-4 bg-luxBorder rounded-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
             <h4 className="font-semibold text-luxHeading mb-3">Comments ({comments.length})</h4>
             
             {/* Display all comments */}
@@ -218,13 +240,19 @@ export default function BlogCard({ blog, onRead, onEdit, onDelete, isOwner }) {
               />
               <div className="flex justify-end gap-2 mt-2">
                 <button
-                  onClick={() => setShowComments(false)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowComments(false);
+                  }}
                   className="text-luxMuted hover:text-luxText transition text-sm"
                 >
                   Close
                 </button>
                 <button
-                  onClick={handleComment}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleComment();
+                  }}
                   className="bg-luxAccent text-luxSurface px-3 py-1 rounded text-sm hover:bg-luxAccent/80 transition"
                 >
                   Comment

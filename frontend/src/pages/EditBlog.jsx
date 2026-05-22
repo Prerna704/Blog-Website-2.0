@@ -14,7 +14,7 @@ export default function EditBlog() {
   const [image, setImage] = useState("");
 
   useEffect(() => {
-    fetch(`https://blog-website-2-0-7et4.onrender.com/api/blogs/${id}`)
+    fetch(`/api/blogs/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setTitle(data.title || "");
@@ -27,7 +27,7 @@ export default function EditBlog() {
   const handleUpdate = async (e) => {
     e.preventDefault();
 
-    await fetch(`https://blog-website-2-0-7et4.onrender.com/api/blogs/update/${id}`, {
+    await fetch(`/api/blogs/update/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

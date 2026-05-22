@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 const connectDB = require("./config/db");
 const Blog = require("./models/Blog");
 const mockBlogs = require("./data/mockBlogs");
@@ -8,6 +9,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.get("/", (req, res) => {
   res.send("Backend is running ✅");
@@ -15,6 +17,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/blogs", require("./routes/blogRoutes"));
 app.use("/api/auth", require("./routes/authRoutes"));
+app.use("/api/contact", require("./routes/contactRoutes"));
 
 async function startServer() {
   // Connect DB first

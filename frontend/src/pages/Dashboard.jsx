@@ -10,7 +10,7 @@ export default function Dashboard() {
 
   const updatePassword = async () => {
     await axios.put(
-      "https://blog-website-2-0-7et4.onrender.com/api/auth/update-password",
+      "/api/auth/update-password",
       { oldPassword, newPassword },
       { headers: { Authorization: token } }
     );
@@ -22,7 +22,7 @@ export default function Dashboard() {
     formData.append("photo", photo);
 
     await axios.post(
-      "https://blog-website-2-0-7et4.onrender.com/api/auth/upload-photo",
+      "/api/auth/upload-photo",
       formData,
       { headers: { Authorization: token } }
     );

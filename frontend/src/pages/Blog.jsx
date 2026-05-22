@@ -10,7 +10,7 @@ export default function Blog() {
 
   // Fetch all blogs
   useEffect(() => {
-    fetch("https://blog-website-2-0-7et4.onrender.com/api/blogs")
+    fetch("/api/blogs")
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch blogs");
         return res.json();

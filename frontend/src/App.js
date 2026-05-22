@@ -12,6 +12,12 @@ import Profile from "./pages/Profile";
 import UpdatePassword from "./pages/UpdatePassword";
 import MyBlogs from "./pages/MyBlogs";
 import EditBlog from "./pages/EditBlog";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+import HelpCenter from "./pages/HelpCenter";
+import CommunityGuidelines from "./pages/CommunityGuidelines";
+import ApiDocumentation from "./pages/ApiDocumentation";
+import Careers from "./pages/Careers";
 
 /* 🔐 Protected Route Wrapper */
 function ProtectedRoute({ children }) {
@@ -33,6 +39,12 @@ export default function App() {
           <Route path="/blog" element={<Blog />} />
           <Route path="/pages" element={<Pages />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/help-center" element={<HelpCenter />} />
+          <Route path="/community-guidelines" element={<CommunityGuidelines />} />
+          <Route path="/api-documentation" element={<ApiDocumentation />} />
+          <Route path="/careers" element={<Careers />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
